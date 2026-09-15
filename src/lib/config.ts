@@ -2,13 +2,15 @@ import prisma from '@/lib/prisma';
 
 export const defaultConfig = {
   pageTitle: 'نظام التحقق من الهويات — غرفة تجارة صلاح الدين',
-  validBgColor: 'bg-gradient-to-br from-green-100 to-blue-50',
-  invalidBgColor: 'bg-gradient-to-br from-red-100 to-red-50',
+  validBgStart: '#dcfce7',
+  validBgEnd: '#eff6ff',
+  invalidBgStart: '#fee2e2',
+  invalidBgEnd: '#fef2f2',
   logoUrl: 'https://via.placeholder.com/150', // Replace with real logo
   validMessage: 'معلومات الهوية الظاهرة أمامك صحيحة ✓',
   invalidMessage: '⚠ هذه الهوية غير سارية أو غير معروفة لدى الغرفة',
-  primaryColor: 'text-green-700',
-  dangerColor: 'text-red-700',
+  primaryColor: '#15803d',
+  dangerColor: '#b91c1c',
 };
 
 export async function getSiteConfig() {

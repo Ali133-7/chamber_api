@@ -3,15 +3,16 @@
 import { useEffect, useState } from "react";
 
 export default function SettingsPage() {
-  const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
   
   const [config, setConfig] = useState({
     pageTitle: "",
-    validBgColor: "",
-    invalidBgColor: "",
     logoUrl: "",
+    validBgStart: "",
+    validBgEnd: "",
+    invalidBgStart: "",
+    invalidBgEnd: "",
     validMessage: "",
     invalidMessage: "",
     primaryColor: "",
@@ -19,7 +20,6 @@ export default function SettingsPage() {
   });
 
   useEffect(() => {
-    // Fetch initial config - we can use server action or api. Since it's public we can create a simple GET api, but wait, config is public anyway. Let's create a GET endpoint.
     fetch('/api/config')
       .then(res => res.json())
       .then(data => setConfig(data))
@@ -64,91 +64,167 @@ export default function SettingsPage() {
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 max-w-2xl">
+      <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 max-w-3xl">
         
-        <div className="space-y-6">
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">عنوان الصفحة</label>
-            <input
-              type="text"
-              name="pageTitle"
-              value={config.pageTitle || ""}
-              onChange={handleChange}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
-            />
+        <div className="space-y-8">
+          {/* General Settings */}
+          <div className="space-y-4">
+            <h2 className="text-lg font-bold text-gray-700 border-b pb-2">الإعدادات العامة</h2>
+            
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">عنوان الصفحة (يظهر في الأعلى)</label>
+              <input
+                type="text"
+                name="pageTitle"
+                value={config.pageTitle || ""}
+                onChange={handleChange}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">رابط الشعار (URL)</label>
+              <input
+                type="text"
+                name="logoUrl"
+                value={config.logoUrl || ""}
+                onChange={handleChange}
+                dir="ltr"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-left"
+                placeholder="https://example.com/logo.png"
+              />
+            </div>
           </div>
 
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">رابط الشعار (URL)</label>
-            <input
-              type="text"
-              name="logoUrl"
-              value={config.logoUrl || ""}
-              onChange={handleChange}
-              dir="ltr"
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-left"
-            />
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="p-4 bg-green-50 rounded-lg border border-green-100 space-y-4">
-              <h3 className="font-bold text-green-800 border-b border-green-200 pb-2">إعدادات الهوية السارية</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Valid State Settings */}
+            <div className="p-5 bg-green-50 rounded-xl border border-green-200 space-y-5 shadow-sm">
+              <h3 className="text-lg font-bold text-green-800 border-b border-green-200 pb-2">الهوية السارية (اللون الأخضر)</h3>
+              
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">لون الخلفية (Tailwind Classes)</label>
-                <input
-                  type="text"
-                  name="validBgColor"
-                  value={config.validBgColor || ""}
-                  onChange={handleChange}
-                  dir="ltr"
-                  className="w-full px-3 py-1.5 border border-gray-300 rounded text-left text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">الرسالة</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">الرسالة الترحيبية</label>
                 <input
                   type="text"
                   name="validMessage"
                   value={config.validMessage || ""}
                   onChange={handleChange}
-                  className="w-full px-3 py-1.5 border border-gray-300 rounded text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
                 />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 mb-1">لون الخلفية (العلوي)</label>
+                  <div className="flex items-center space-x-2 space-x-reverse">
+                    <input
+                      type="color"
+                      name="validBgStart"
+                      value={config.validBgStart || "#dcfce7"}
+                      onChange={handleChange}
+                      className="w-10 h-10 rounded cursor-pointer border-0 p-0"
+                    />
+                    <span className="text-xs text-gray-500 font-mono" dir="ltr">{config.validBgStart}</span>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 mb-1">لون الخلفية (السفلي)</label>
+                  <div className="flex items-center space-x-2 space-x-reverse">
+                    <input
+                      type="color"
+                      name="validBgEnd"
+                      value={config.validBgEnd || "#eff6ff"}
+                      onChange={handleChange}
+                      className="w-10 h-10 rounded cursor-pointer border-0 p-0"
+                    />
+                    <span className="text-xs text-gray-500 font-mono" dir="ltr">{config.validBgEnd}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 mb-1">لون النصوص المميزة (الأيقونات ورسالة التأكيد)</label>
+                <div className="flex items-center space-x-2 space-x-reverse">
+                  <input
+                    type="color"
+                    name="primaryColor"
+                    value={config.primaryColor || "#15803d"}
+                    onChange={handleChange}
+                    className="w-10 h-10 rounded cursor-pointer border-0 p-0"
+                  />
+                  <span className="text-xs text-gray-500 font-mono" dir="ltr">{config.primaryColor}</span>
+                </div>
               </div>
             </div>
 
-            <div className="p-4 bg-red-50 rounded-lg border border-red-100 space-y-4">
-              <h3 className="font-bold text-red-800 border-b border-red-200 pb-2">إعدادات الهوية المنتهية/غير الموجودة</h3>
+            {/* Invalid State Settings */}
+            <div className="p-5 bg-red-50 rounded-xl border border-red-200 space-y-5 shadow-sm">
+              <h3 className="text-lg font-bold text-red-800 border-b border-red-200 pb-2">الهوية المنتهية/المفقودة (اللون الأحمر)</h3>
+              
               <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">لون الخلفية (Tailwind Classes)</label>
-                <input
-                  type="text"
-                  name="invalidBgColor"
-                  value={config.invalidBgColor || ""}
-                  onChange={handleChange}
-                  dir="ltr"
-                  className="w-full px-3 py-1.5 border border-gray-300 rounded text-left text-sm"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-medium text-gray-600 mb-1">الرسالة</label>
+                <label className="block text-sm font-semibold text-gray-700 mb-1">رسالة التنبيه</label>
                 <input
                   type="text"
                   name="invalidMessage"
                   value={config.invalidMessage || ""}
                   onChange={handleChange}
-                  className="w-full px-3 py-1.5 border border-gray-300 rounded text-sm"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500"
                 />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 mb-1">لون الخلفية (العلوي)</label>
+                  <div className="flex items-center space-x-2 space-x-reverse">
+                    <input
+                      type="color"
+                      name="invalidBgStart"
+                      value={config.invalidBgStart || "#fee2e2"}
+                      onChange={handleChange}
+                      className="w-10 h-10 rounded cursor-pointer border-0 p-0"
+                    />
+                    <span className="text-xs text-gray-500 font-mono" dir="ltr">{config.invalidBgStart}</span>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-semibold text-gray-600 mb-1">لون الخلفية (السفلي)</label>
+                  <div className="flex items-center space-x-2 space-x-reverse">
+                    <input
+                      type="color"
+                      name="invalidBgEnd"
+                      value={config.invalidBgEnd || "#fef2f2"}
+                      onChange={handleChange}
+                      className="w-10 h-10 rounded cursor-pointer border-0 p-0"
+                    />
+                    <span className="text-xs text-gray-500 font-mono" dir="ltr">{config.invalidBgEnd}</span>
+                  </div>
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 mb-1">لون نص التنبيه</label>
+                <div className="flex items-center space-x-2 space-x-reverse">
+                  <input
+                    type="color"
+                    name="dangerColor"
+                    value={config.dangerColor || "#b91c1c"}
+                    onChange={handleChange}
+                    className="w-10 h-10 rounded cursor-pointer border-0 p-0"
+                  />
+                  <span className="text-xs text-gray-500 font-mono" dir="ltr">{config.dangerColor}</span>
+                </div>
               </div>
             </div>
           </div>
 
-          <div className="pt-4 border-t border-gray-200">
+          <div className="pt-6 border-t border-gray-200">
             <button
               type="submit"
               disabled={saving}
-              className="bg-blue-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-blue-700 disabled:opacity-50"
+              className="bg-blue-600 text-white px-8 py-3 rounded-xl font-bold hover:bg-blue-700 disabled:opacity-50 transition w-full md:w-auto text-lg shadow-md"
             >
-              {saving ? "جاري الحفظ..." : "حفظ الإعدادات"}
+              {saving ? "جاري الحفظ..." : "حفظ الإعدادات بنجاح"}
             </button>
           </div>
         </div>

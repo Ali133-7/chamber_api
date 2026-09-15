@@ -22,12 +22,17 @@ export default async function VerifyPage({ params }: PageProps) {
   const isValid = member?.isValid && member?.qrVisible;
 
   // Determine styles based on validity
-  const bgClass = isValid ? config.validBgColor : config.invalidBgColor;
-  const messageColor = isValid ? config.primaryColor : config.dangerColor;
+  const bgStart = isValid ? config.validBgStart : config.invalidBgStart;
+  const bgEnd = isValid ? config.validBgEnd : config.invalidBgEnd;
+  const textColor = isValid ? config.primaryColor : config.dangerColor;
   const message = isValid ? config.validMessage : config.invalidMessage;
 
+  const bgStyle = {
+    background: `linear-gradient(to bottom right, ${bgStart}, ${bgEnd})`
+  };
+
   return (
-    <div className={`min-h-screen ${bgClass} flex flex-col items-center py-12 px-4 rtl font-sans`} dir="rtl">
+    <div className={`min-h-screen flex flex-col items-center py-12 px-4 rtl font-sans`} dir="rtl" style={bgStyle}>
       
       {/* Header */}
       <div className="flex flex-col items-center mb-8 text-center">
@@ -37,26 +42,26 @@ export default async function VerifyPage({ params }: PageProps) {
             <img 
               src={config.logoUrl} 
               alt="شعار الغرفة" 
-              className="object-contain w-full h-full"
+              className="object-contain w-full h-full drop-shadow-md"
             />
           </div>
         )}
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800">
+        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 drop-shadow-sm">
           {config.pageTitle}
         </h1>
       </div>
 
       {/* Main Card */}
-      <div className="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+      <div className="w-full max-w-md bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-gray-100">
         
         {/* Status Banner */}
-        <div className={`flex items-center justify-center p-4 ${isValid ? 'bg-green-50' : 'bg-red-50'} border-b ${isValid ? 'border-green-100' : 'border-red-100'}`}>
+        <div className={`flex items-center justify-center p-4 border-b`} style={{ backgroundColor: bgStart, borderColor: bgEnd }}>
           {isValid ? (
-            <CheckCircle className={`w-6 h-6 ml-2 ${messageColor}`} />
+            <CheckCircle className={`w-6 h-6 ml-2`} style={{ color: textColor }} />
           ) : (
-            <XCircle className={`w-6 h-6 ml-2 ${messageColor}`} />
+            <XCircle className={`w-6 h-6 ml-2`} style={{ color: textColor }} />
           )}
-          <span className={`text-lg font-bold ${messageColor}`}>
+          <span className={`text-lg font-bold`} style={{ color: textColor }}>
             {message}
           </span>
         </div>
@@ -102,7 +107,7 @@ export default async function VerifyPage({ params }: PageProps) {
       </div>
       
       {/* Footer */}
-      <div className="mt-8 text-sm text-gray-500 text-center">
+      <div className="mt-8 text-sm text-gray-700 text-center font-medium drop-shadow-sm">
         جميع الحقوق محفوظة © {new Date().getFullYear()} - غرفة تجارة صلاح الدين
       </div>
 
