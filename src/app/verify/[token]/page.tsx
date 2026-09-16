@@ -27,10 +27,7 @@ export default async function VerifyPage({ params }: PageProps) {
   const bgEnd = isValid ? config.validBgEnd : config.invalidBgEnd;
   const textColor = isValid ? config.primaryColor : config.dangerColor;
   
-  let message = isValid ? config.validMessage : config.invalidMessage;
-  if (member && member.customMessage && member.customMessage.trim() !== "") {
-    message = member.customMessage;
-  }
+  const message = isValid ? config.validMessage : config.invalidMessage;
 
   const bgStyle = {
     background: `linear-gradient(to bottom right, ${bgStart}, ${bgEnd})`
@@ -60,15 +57,24 @@ export default async function VerifyPage({ params }: PageProps) {
       <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
         
         {/* Status Banner */}
-        <div className={`flex flex-col items-center justify-center p-8 text-center`} style={{ backgroundColor: bgStart, borderBottom: `2px solid ${bgEnd}` }}>
+        <div className={`flex flex-col items-center justify-center p-8 text-center space-y-4`} style={{ backgroundColor: bgStart, borderBottom: `2px solid ${bgEnd}` }}>
           {isValid ? (
-            <CheckCircle className={`w-16 h-16 mb-4 drop-shadow-md`} style={{ color: textColor }} />
+            <CheckCircle className={`w-16 h-16 drop-shadow-md`} style={{ color: textColor }} />
           ) : (
-            <XCircle className={`w-16 h-16 mb-4 drop-shadow-md`} style={{ color: textColor }} />
+            <XCircle className={`w-16 h-16 drop-shadow-md`} style={{ color: textColor }} />
           )}
+          
           <span className={`text-2xl font-black tracking-wide`} style={{ color: textColor }}>
             {message}
           </span>
+
+          {member && member.customMessage && member.customMessage.trim() !== "" && (
+            <div className="mt-2 px-6 py-3 bg-white/60 backdrop-blur-sm rounded-xl shadow-sm w-full">
+              <p className="text-lg font-bold text-gray-800">
+                {member.customMessage}
+              </p>
+            </div>
+          )}
         </div>
 
         {/* Member Details */}
