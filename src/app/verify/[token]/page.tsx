@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
 import { getSiteConfig } from '@/lib/config';
-import { CheckCircle, XCircle, Building2, User, Tag } from 'lucide-react';
+import { CheckCircle, XCircle, Building2, User, Tag, Phone, Mail, MapPin } from 'lucide-react';
 import { isMemberEffectivelyValid } from '@/lib/expiration';
 
 interface PageProps {
@@ -39,79 +39,117 @@ export default async function VerifyPage({ params }: PageProps) {
     <div className={`min-h-screen flex flex-col items-center py-12 px-4 rtl font-sans`} dir="rtl" style={bgStyle}>
       
       {/* Header */}
-      <div className="flex flex-col items-center mb-8 text-center">
+      <div className="flex flex-col items-center mb-10 text-center space-y-4">
         {config.logoUrl && config.logoUrl !== '' && (
-          <div className="relative w-24 h-24 mb-4">
+          <div className="relative w-32 h-32 bg-white rounded-2xl shadow-md p-2">
              {/* eslint-disable-next-line @next/next/no-img-element */}
             <img 
               src={config.logoUrl} 
               alt="شعار الغرفة" 
-              className="object-contain w-full h-full drop-shadow-md"
+              className="object-contain w-full h-full"
             />
           </div>
         )}
-        <h1 className="text-2xl md:text-3xl font-bold text-gray-800 drop-shadow-sm">
+        <h1 className="text-2xl md:text-4xl font-extrabold text-gray-800 drop-shadow-sm tracking-tight">
           {config.pageTitle}
         </h1>
       </div>
 
       {/* Main Card */}
-      <div className="w-full max-w-md bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+      <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
         
         {/* Status Banner */}
-        <div className={`flex items-center justify-center p-4 border-b`} style={{ backgroundColor: bgStart, borderColor: bgEnd }}>
+        <div className={`flex flex-col items-center justify-center p-8 text-center`} style={{ backgroundColor: bgStart, borderBottom: `2px solid ${bgEnd}` }}>
           {isValid ? (
-            <CheckCircle className={`w-6 h-6 ml-2`} style={{ color: textColor }} />
+            <CheckCircle className={`w-16 h-16 mb-4 drop-shadow-md`} style={{ color: textColor }} />
           ) : (
-            <XCircle className={`w-6 h-6 ml-2`} style={{ color: textColor }} />
+            <XCircle className={`w-16 h-16 mb-4 drop-shadow-md`} style={{ color: textColor }} />
           )}
-          <span className={`text-lg font-bold`} style={{ color: textColor }}>
+          <span className={`text-2xl font-black tracking-wide`} style={{ color: textColor }}>
             {message}
           </span>
         </div>
 
         {/* Member Details */}
-        {isValid && member && (
-          <div className="p-6 space-y-4">
+        {member && (
+          <div className="p-8 space-y-6">
             
-            <div className="flex items-start">
-              <User className="w-5 h-5 ml-3 text-gray-400 mt-1" />
-              <div>
-                <p className="text-sm text-gray-500">اسم التاجر</p>
-                <p className="text-lg font-semibold text-gray-900">{member.name}</p>
+            <div className="flex items-center p-4 bg-gray-50 rounded-2xl border border-gray-100">
+              <div className="bg-white p-3 rounded-full shadow-sm">
+                <User className="w-6 h-6 text-gray-500" />
+              </div>
+              <div className="mr-4">
+                <p className="text-sm font-semibold text-gray-400 mb-1">اسم التاجر</p>
+                <p className="text-xl font-bold text-gray-900">{member.name}</p>
               </div>
             </div>
 
-            <div className="flex items-start">
-              <Building2 className="w-5 h-5 ml-3 text-gray-400 mt-1" />
-              <div>
-                <p className="text-sm text-gray-500">نوع الكيان</p>
-                <p className="text-lg font-semibold text-gray-900">{member.entityType}</p>
+            <div className="flex items-center p-4 bg-gray-50 rounded-2xl border border-gray-100">
+              <div className="bg-white p-3 rounded-full shadow-sm">
+                <Building2 className="w-6 h-6 text-gray-500" />
+              </div>
+              <div className="mr-4">
+                <p className="text-sm font-semibold text-gray-400 mb-1">نوع الكيان</p>
+                <p className="text-xl font-bold text-gray-900">{member.entityType}</p>
               </div>
             </div>
 
-            <div className="flex items-start">
-              <Tag className="w-5 h-5 ml-3 text-gray-400 mt-1" />
-              <div>
-                <p className="text-sm text-gray-500">صنف العضوية</p>
-                <p className="text-lg font-semibold text-gray-900">{member.category}</p>
+            <div className="flex items-center p-4 bg-gray-50 rounded-2xl border border-gray-100">
+              <div className="bg-white p-3 rounded-full shadow-sm">
+                <Tag className="w-6 h-6 text-gray-500" />
+              </div>
+              <div className="mr-4">
+                <p className="text-sm font-semibold text-gray-400 mb-1">صنف العضوية</p>
+                <p className="text-xl font-bold text-gray-900">{member.category}</p>
               </div>
             </div>
 
           </div>
         )}
 
-        {/* Footer info if invalid */}
-        {!isValid && (
-          <div className="p-6 text-center text-gray-600">
-            <p>الرجاء مراجعة غرفة تجارة صلاح الدين لتحديث أو تصحيح بياناتك.</p>
+        {!member && (
+          <div className="p-8 text-center text-gray-600 font-medium text-lg">
+            عذراً، لم يتم العثور على أي هوية مطابقة لهذا الرمز.
           </div>
         )}
 
       </div>
+
+      {/* Contact Section */}
+      <div className="w-full max-w-lg mt-8 bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/50 text-center">
+        <h3 className="text-lg font-bold text-gray-700 mb-4">للتواصل والمراجعة</h3>
+        <div className="flex flex-wrap justify-center gap-4">
+          
+          {config.contactPhone && (
+            <a href={`tel:${config.contactPhone}`} className="flex items-center gap-2 bg-white px-5 py-3 rounded-xl shadow-sm border border-gray-200 text-gray-800 hover:bg-gray-50 hover:shadow-md transition-all font-bold">
+              <Phone className="w-5 h-5 text-blue-600" />
+              <span dir="ltr">{config.contactPhone}</span>
+            </a>
+          )}
+          
+          {config.contactEmail && (
+            <a href={`mailto:${config.contactEmail}`} className="flex items-center gap-2 bg-white px-5 py-3 rounded-xl shadow-sm border border-gray-200 text-gray-800 hover:bg-gray-50 hover:shadow-md transition-all font-bold">
+              <Mail className="w-5 h-5 text-blue-600" />
+              <span>البريد الإلكتروني</span>
+            </a>
+          )}
+          
+          {config.mapUrl && (
+            <a href={config.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-white px-5 py-3 rounded-xl shadow-sm border border-gray-200 text-gray-800 hover:bg-gray-50 hover:shadow-md transition-all font-bold">
+              <MapPin className="w-5 h-5 text-blue-600" />
+              <span>موقع الغرفة</span>
+            </a>
+          )}
+
+          {(!config.contactPhone && !config.contactEmail && !config.mapUrl) && (
+            <p className="text-gray-500 text-sm">الرجاء مراجعة مقر الغرفة الرئيسي.</p>
+          )}
+
+        </div>
+      </div>
       
       {/* Footer */}
-      <div className="mt-8 text-sm text-gray-700 text-center font-medium drop-shadow-sm">
+      <div className="mt-8 text-sm text-gray-600 text-center font-bold drop-shadow-sm bg-white/50 px-6 py-2 rounded-full">
         جميع الحقوق محفوظة © {new Date().getFullYear()} - غرفة تجارة صلاح الدين
       </div>
 

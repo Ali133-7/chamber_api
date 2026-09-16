@@ -17,6 +17,9 @@ export default function SettingsPage() {
     invalidMessage: "",
     primaryColor: "",
     dangerColor: "",
+    contactPhone: "",
+    contactEmail: "",
+    mapUrl: "",
   });
 
   useEffect(() => {
@@ -215,6 +218,51 @@ export default function SettingsPage() {
                   <span className="text-xs text-gray-500 font-mono" dir="ltr">{config.dangerColor}</span>
                 </div>
               </div>
+            </div>
+          </div>
+
+          <div className="space-y-4 pt-6 border-t border-gray-200">
+            <h2 className="text-lg font-bold text-gray-700 border-b pb-2">معلومات التواصل</h2>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">رقم الهاتف</label>
+                <input
+                  type="text"
+                  name="contactPhone"
+                  value={config.contactPhone || ""}
+                  onChange={handleChange}
+                  dir="ltr"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-left"
+                  placeholder="+964..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2">البريد الإلكتروني</label>
+                <input
+                  type="email"
+                  name="contactEmail"
+                  value={config.contactEmail || ""}
+                  onChange={handleChange}
+                  dir="ltr"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-left"
+                  placeholder="info@chamber.com"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2">رابط الموقع على الخريطة (Google Maps URL)</label>
+              <input
+                type="text"
+                name="mapUrl"
+                value={config.mapUrl || ""}
+                onChange={handleChange}
+                dir="ltr"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-left"
+                placeholder="https://maps.google.com/..."
+              />
             </div>
           </div>
 

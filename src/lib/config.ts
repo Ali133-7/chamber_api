@@ -11,6 +11,9 @@ export const defaultConfig = {
   invalidMessage: '⚠ هذه الهوية غير سارية أو غير معروفة لدى الغرفة',
   primaryColor: '#15803d',
   dangerColor: '#b91c1c',
+  contactPhone: '',
+  contactEmail: '',
+  mapUrl: '',
 };
 
 export async function getSiteConfig() {
