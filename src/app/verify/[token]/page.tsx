@@ -1,8 +1,9 @@
 import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
 import { getSiteConfig } from '@/lib/config';
-import { CheckCircle, XCircle, Building2, User, Tag, Phone, Mail, MapPin } from 'lucide-react';
+import { CheckCircle, XCircle, Building2, User, Tag } from 'lucide-react';
 import { isMemberEffectivelyValid } from '@/lib/expiration';
+import ContactAccordion from '@/components/ContactAccordion';
 
 interface PageProps {
   params: {
@@ -116,37 +117,11 @@ export default async function VerifyPage({ params }: PageProps) {
       </div>
 
       {/* Contact Section */}
-      <div className="w-full max-w-lg mt-8 bg-white/80 backdrop-blur-md rounded-2xl p-6 shadow-lg border border-white/50 text-center">
-        <h3 className="text-lg font-bold text-gray-700 mb-4">للتواصل والمراجعة</h3>
-        <div className="flex flex-wrap justify-center gap-4">
-          
-          {config.contactPhone && (
-            <a href={`tel:${config.contactPhone}`} className="flex items-center gap-2 bg-white px-5 py-3 rounded-xl shadow-sm border border-gray-200 text-gray-800 hover:bg-gray-50 hover:shadow-md transition-all font-bold">
-              <Phone className="w-5 h-5 text-blue-600" />
-              <span dir="ltr">{config.contactPhone}</span>
-            </a>
-          )}
-          
-          {config.contactEmail && (
-            <a href={`mailto:${config.contactEmail}`} className="flex items-center gap-2 bg-white px-5 py-3 rounded-xl shadow-sm border border-gray-200 text-gray-800 hover:bg-gray-50 hover:shadow-md transition-all font-bold">
-              <Mail className="w-5 h-5 text-blue-600" />
-              <span>البريد الإلكتروني</span>
-            </a>
-          )}
-          
-          {config.mapUrl && (
-            <a href={config.mapUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-white px-5 py-3 rounded-xl shadow-sm border border-gray-200 text-gray-800 hover:bg-gray-50 hover:shadow-md transition-all font-bold">
-              <MapPin className="w-5 h-5 text-blue-600" />
-              <span>موقع الغرفة</span>
-            </a>
-          )}
-
-          {(!config.contactPhone && !config.contactEmail && !config.mapUrl) && (
-            <p className="text-gray-500 text-sm">الرجاء مراجعة مقر الغرفة الرئيسي.</p>
-          )}
-
-        </div>
-      </div>
+      <ContactAccordion 
+        phone={config.contactPhone || ""} 
+        email={config.contactEmail || ""} 
+        mapUrl={config.mapUrl || ""} 
+      />
       
       {/* Footer */}
       <div className="mt-8 text-sm text-gray-600 text-center font-bold drop-shadow-sm bg-white/50 px-6 py-2 rounded-full">
