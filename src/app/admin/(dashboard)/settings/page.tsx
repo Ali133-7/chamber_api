@@ -81,7 +81,7 @@ export default function SettingsPage() {
                 name="pageTitle"
                 value={config.pageTitle || ""}
                 onChange={handleChange}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-gray-900 font-semibold"
               />
             </div>
 
@@ -93,7 +93,7 @@ export default function SettingsPage() {
                 value={config.logoUrl || ""}
                 onChange={handleChange}
                 dir="ltr"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-left"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-left text-gray-900 font-semibold"
                 placeholder="https://example.com/logo.png"
               />
             </div>
@@ -111,7 +111,7 @@ export default function SettingsPage() {
                   name="validMessage"
                   value={config.validMessage || ""}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-green-500 focus:border-green-500 text-gray-900 font-semibold"
                 />
               </div>
 
@@ -171,7 +171,7 @@ export default function SettingsPage() {
                   name="invalidMessage"
                   value={config.invalidMessage || ""}
                   onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500"
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-red-500 focus:border-red-500 text-gray-900 font-semibold"
                 />
               </div>
 
@@ -233,7 +233,7 @@ export default function SettingsPage() {
                   value={config.contactPhone || ""}
                   onChange={handleChange}
                   dir="ltr"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-left"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-left text-gray-900 font-semibold"
                   placeholder="+964..."
                 />
               </div>
@@ -246,7 +246,7 @@ export default function SettingsPage() {
                   value={config.contactEmail || ""}
                   onChange={handleChange}
                   dir="ltr"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-left"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-left text-gray-900 font-semibold"
                   placeholder="info@chamber.com"
                 />
               </div>
@@ -260,7 +260,7 @@ export default function SettingsPage() {
                 value={config.mapUrl || ""}
                 onChange={handleChange}
                 dir="ltr"
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-left"
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-left text-gray-900 font-semibold"
                 placeholder="https://maps.google.com/..."
               />
             </div>
