@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import prisma from '@/lib/prisma';
 import { getSiteConfig } from '@/lib/config';
 import { CheckCircle, XCircle, Building2, User, Tag } from 'lucide-react';
-import Image from 'next/image';
+import { isMemberEffectivelyValid } from '@/lib/expiration';
 
 interface PageProps {
   params: {
@@ -19,7 +19,7 @@ export default async function VerifyPage({ params }: PageProps) {
     where: { token },
   });
 
-  const isValid = member?.isValid && member?.qrVisible;
+  const isValid = member ? (isMemberEffectivelyValid(member) && member.qrVisible) : false;
 
   // Determine styles based on validity
   const bgStart = isValid ? config.validBgStart : config.invalidBgStart;

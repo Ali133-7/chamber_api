@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+import MemberStatusToggle from '@/components/MemberStatusToggle';
 
 export default async function AdminDashboard({
   searchParams,
@@ -48,7 +49,7 @@ export default async function AdminDashboard({
                 <th className="p-4 font-semibold">الاسم</th>
                 <th className="p-4 font-semibold">رقم العضوية</th>
                 <th className="p-4 font-semibold">الصنف</th>
-                <th className="p-4 font-semibold">الحالة</th>
+                <th className="p-4 font-semibold text-center">الحالة (تفعيل/إلغاء)</th>
                 <th className="p-4 font-semibold">آخر مزامنة</th>
               </tr>
             </thead>
@@ -65,12 +66,8 @@ export default async function AdminDashboard({
                     <td className="p-4 font-medium text-gray-900">{member.name}</td>
                     <td className="p-4 text-gray-600">{member.memberNumber}</td>
                     <td className="p-4 text-gray-600">{member.category}</td>
-                    <td className="p-4">
-                      {member.isValid ? (
-                        <span className="px-2 py-1 bg-green-100 text-green-700 rounded-full text-xs font-bold">سارية</span>
-                      ) : (
-                        <span className="px-2 py-1 bg-red-100 text-red-700 rounded-full text-xs font-bold">غير سارية</span>
-                      )}
+                    <td className="p-4 align-middle">
+                      <MemberStatusToggle member={member} />
                     </td>
                     <td className="p-4 text-gray-500" dir="ltr">
                       {new Date(member.syncedAt).toLocaleString('en-US')}
