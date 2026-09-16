@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import ChangePasswordForm from "@/components/ChangePasswordForm";
 
 export default function SettingsPage() {
   const [saving, setSaving] = useState(false);
@@ -278,6 +279,8 @@ export default function SettingsPage() {
         </div>
 
       </form>
+
+      <ChangePasswordForm />
     </div>
   );
 }
