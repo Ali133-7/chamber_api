@@ -14,7 +14,7 @@ export async function PATCH(
 
   try {
     const body = await request.json();
-    const { isValid } = body;
+    const { isValid, customMessage } = body;
 
     if (typeof isValid !== 'boolean') {
       return NextResponse.json({ error: 'Invalid payload' }, { status: 400 });
@@ -22,10 +22,13 @@ export async function PATCH(
 
     const updatedMember = await prisma.member.update({
       where: { id: params.id },
-      data: { isValid },
+      data: { 
+        isValid,
+        customMessage: customMessage || null 
+      },
     });
 
-    return NextResponse.json({ success: true, isValid: updatedMember.isValid });
+    return NextResponse.json({ success: true, isValid: updatedMember.isValid, customMessage: updatedMember.customMessage });
   } catch (error) {
     return NextResponse.json({ error: 'Failed to update member' }, { status: 500 });
   }

@@ -25,7 +25,11 @@ export default async function VerifyPage({ params }: PageProps) {
   const bgStart = isValid ? config.validBgStart : config.invalidBgStart;
   const bgEnd = isValid ? config.validBgEnd : config.invalidBgEnd;
   const textColor = isValid ? config.primaryColor : config.dangerColor;
-  const message = isValid ? config.validMessage : config.invalidMessage;
+  
+  let message = isValid ? config.validMessage : config.invalidMessage;
+  if (member && member.customMessage && member.customMessage.trim() !== "") {
+    message = member.customMessage;
+  }
 
   const bgStyle = {
     background: `linear-gradient(to bottom right, ${bgStart}, ${bgEnd})`
