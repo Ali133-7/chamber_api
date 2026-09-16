@@ -1,5 +1,6 @@
 import prisma from '@/lib/prisma';
 import MemberStatusToggle from '@/components/MemberStatusToggle';
+import QrThumbnail from '@/components/QrThumbnail';
 
 export default async function AdminDashboard({
   searchParams,
@@ -63,7 +64,12 @@ export default async function AdminDashboard({
               ) : (
                 members.map((member) => (
                   <tr key={member.id} className="hover:bg-gray-50">
-                    <td className="p-4 font-medium text-gray-900">{member.name}</td>
+                    <td className="p-4 font-medium text-gray-900">
+                      <div className="flex items-center gap-3">
+                        <QrThumbnail token={member.token} memberName={member.name} />
+                        <span>{member.name}</span>
+                      </div>
+                    </td>
                     <td className="p-4 text-gray-600">{member.memberNumber}</td>
                     <td className="p-4 text-gray-600">{member.category}</td>
                     <td className="p-4 align-middle">
